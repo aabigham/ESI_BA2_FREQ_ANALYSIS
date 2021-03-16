@@ -1,23 +1,35 @@
 #include <iostream>
 #include <fstream>
 
-void remove_whitespaces(std::fstream fin, std::fstream fout);
-
+/**
+ * Takes one fin in argument and creates an output text file containing
+ * all of the content of the first file without the whitespaces.
+ * */
 int main(int argc, char const *argv[])
 {
-    std::cout << "Remove Spaces\n";
-    //remove_whitespaces(std::fstream{"book.txt"}, std::fstream{"book_clean.txt"});
-    return 0;
-}
+    if (argc != 2)
+    {
+        std::cout << "One arguments needed.\n";
+        exit(1);
+    }
 
-void remove_whitespaces(std::fstream fin, std::fstream fout)
-{
+    std::fstream fin;
+    fin.open(argv[1]);
+    if (fin.fail())
+    {
+        std::cout << "Input file could not be opened.\n";
+        exit(1);
+    }
+
+    std::ofstream fout("out.txt");
     std::string str;
     while (fin >> str)
     {
-        std::cout << str;
         fout << str;
     }
+
     fin.close();
     fout.close();
+
+    return 0;
 }
