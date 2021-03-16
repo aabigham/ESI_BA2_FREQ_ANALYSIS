@@ -2,14 +2,18 @@ CXX = g++
 CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -g -fsanitize=address
 LDFLAGS =  -fsanitize=address
 
-SRC = main.cpp myfunctions.cpp
-OBJ = $(SRC:.cc=.o)
-EXEC = freq
+EXEC = removeSpaces cesar vigenere
 
 all: $(EXEC)
 
-$(EXEC): $(OBJ)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJ) $(LBLIBS)
+removeSpaces : removeSpaces.cpp
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LBLIBS)
+
+cesar : cesar.cpp
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LBLIBS)
+
+vigenere : vigenere.cpp
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LBLIBS)
 
 clean:
 	rm -rf $(EXEC)
