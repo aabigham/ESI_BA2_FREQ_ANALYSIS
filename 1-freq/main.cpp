@@ -1,7 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <cctype>
-#include <cstdlib>
 
 void remove_whitespaces(std::fstream fin, std::fstream fout);
 
