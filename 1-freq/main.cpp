@@ -5,6 +5,7 @@ void remove_whitespaces(std::fstream fin, std::fstream fout);
 
 int main(int argc, char const *argv[])
 {
+    std::cout << "Hello World\n";
     remove_whitespaces(std::fstream("book.txt"), std::fstream("book_clean.txt"));
     return 0;
 }
