@@ -16,4 +16,4 @@ vigenere : vigenere.cpp
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LBLIBS)
 
 clean:
-	rm -rf $(EXEC)
+	rm -rf $(EXEC) *-out.txt

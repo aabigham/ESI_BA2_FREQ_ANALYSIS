@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string.h>
 
 /**
  * Takes one fin in argument and creates an output text file containing
@@ -9,7 +10,7 @@ int main(int argc, char const *argv[])
 {
     if (argc != 2)
     {
-        std::cout << "One arguments needed.\n";
+        std::cout << "One argument needed.\n";
         exit(1);
     }
 
@@ -21,7 +22,10 @@ int main(int argc, char const *argv[])
         exit(1);
     }
 
-    std::ofstream fout("out.txt");
+    char *token = strtok((char *)argv[1], ".txt");
+    char *s_out = strcat(token, "-out.txt");
+
+    std::ofstream fout(s_out);
     std::string str;
     while (fin >> str)
     {
@@ -30,6 +34,7 @@ int main(int argc, char const *argv[])
 
     fin.close();
     fout.close();
+    std::cout << s_out << " created\n";
 
     return 0;
 }
