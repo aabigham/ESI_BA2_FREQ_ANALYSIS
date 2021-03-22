@@ -1,31 +1,74 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/vscode,c++
-# Edit at https://www.toptal.com/developers/gitignore?templates=vscode,c++
+# Created by https://www.toptal.com/developers/gitignore/api/c,c++,java,vscode
+# Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,java,vscode
 
-### C++ ###
+### C ###
 # Prerequisites
 *.d
 
-# Compiled Object files
-*.slo
-*.lo
+# Object files
 *.o
+*.ko
 *.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
 
 # Precompiled Headers
 *.gch
 *.pch
 
-# Linker files
-*.ilk
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
 
-# Debugger Files
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
 *.pdb
 
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+### C++ ###
+# Prerequisites
+
+# Compiled Object files
+*.slo
+
+# Precompiled Headers
+
+# Linker files
+
+# Debugger Files
+
 # Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -33,14 +76,33 @@
 
 # Compiled Static libraries
 *.lai
-*.la
-*.a
-*.lib
 
 # Executables
-*.exe
-*.out
-*.app
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
 
 ### vscode ###
 .vscode/*
@@ -50,4 +112,4 @@
 !.vscode/extensions.json
 *.code-workspace
 
-# End of https://www.toptal.com/developers/gitignore/api/vscode,c++
+# End of https://www.toptal.com/developers/gitignore/api/c,c++,java,vscode
