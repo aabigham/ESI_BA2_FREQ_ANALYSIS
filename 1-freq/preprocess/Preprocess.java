@@ -1,6 +1,3 @@
-package proc;
-
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -11,10 +8,18 @@ import java.util.Scanner;
 
 public class Preprocess 
 {
+    public static void main(String[] args) throws IOException 
+    {        
+        if(args.length != 2)            
+            System.err.println("Usage : java Main input_file_name output_file_name");
+        else
+            Preprocess.preprocessFile(args[0], args[1], true);
+    }
+
     public static final String DIACRITICS = "àâäéèêëîïôùûç";
     public static final String DIACRITICS_REPLACE = "aaaeeeeiiouuc";
     public static final String TO_REMOVE = " \n\t\"+-*/=&|'()[]{},;.!?#~_";
-    
+
     public static int indexOf(char c, String str)
     {
         for(int i = 0; i < str.length(); i++)
