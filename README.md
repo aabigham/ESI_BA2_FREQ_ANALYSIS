@@ -16,11 +16,11 @@ Our file structure for this lab looks like this :
  ┃ ┣ Preprocess.java
  ┃ ┣ book-preprocessed.txt
  ┃ ┗ book.txt
- ┣ vigenere
- ┃ ┣ Makefile
- ┃ ┣ vigenere.cpp
- ┃ ┗ book.txt
- ┗ removeSpaces.cpp
+ ┗ vigenere
+   ┣ Makefile
+   ┣ vigenere.cpp
+   ┗ book.txt
+
 ```
 ### Instructions for this lab : 
 In each file you will find a Makefile used for compiling the program. 
@@ -34,6 +34,6 @@ The options are :
 - `-c` to **cipher** a file. 
 - `-u` to **uncipher** a file. 
 
-Some examples of running these programs: 
+Some examples of running these programs : 
 - `./cesar -c book.txt` will create a ciphered version the `book.txt` file, using the cesar method.
 - `./cesar -u book-ciphered.txt` will create a ciphered version the `book-ciphered.txt` file, using the cesar method.

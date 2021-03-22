@@ -37,12 +37,12 @@ int main(int argc, char const *argv[])
     std::cout << key << " is the key\n";
 
     std::ofstream fout(name_fout);
-    std::string str;
-    fin >> str;
-    for (size_t i = 0; i < str.size(); i++)
-        if (str.at(i) >= 'a' && str.at(i) <= 'z')
-            str.at(i) = char(int(str.at(i) + key - 97) % 26 + 97);
-    fout << str;
+    std::string content;
+    fin >> content;
+    for (auto &c : content)
+        if (c >= 'a' && c <= 'z')
+            c = char(int(c + key - 97) % 26 + 97);
+    fout << content;
 
     fin.close();
     fout.close();
