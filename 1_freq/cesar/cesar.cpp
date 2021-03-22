@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
     char *name_fout;
     if (!strcmp(argv[1], "-u"))
     {
-        key = -key;
+        key = 26 - key;
         name_fout = strcat(name_fin, "-unciphered.txt");
     }
     else
