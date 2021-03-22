@@ -28,7 +28,7 @@ In each file you will find a Makefile used for compiling the program.
 To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder and then run the `make` command in your terminal. An executable will be created.
 
 Running that executable will look like this : 
-- ./nameOfExecutable [options] [file.txt]
+- `./nameOfExecutable [options] [file.txt]`
 
 The options are :
 - `-c` to **cipher** a file. 
