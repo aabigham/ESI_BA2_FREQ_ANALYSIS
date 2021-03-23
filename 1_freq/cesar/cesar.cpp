@@ -16,8 +16,7 @@ int main(int argc, char const *argv[])
         std::cout << "Wrong options, must be \"-c\" to cipher or \"-u\" to uncipher your file.\n";
         exit(1);
     }
-    std::fstream fin;
-    fin.open(argv[2]);
+    std::ifstream fin(argv[2], std::ios_base::binary);
     if (fin.fail())
     {
         std::cout << "Input file could not be opened, are you sure it is a text file ?\n";
@@ -26,13 +25,12 @@ int main(int argc, char const *argv[])
 
     char *name_fin = strtok((char *)argv[2], ".");
     char *name_fout;
-    char c;
     if (!strcmp(argv[1], "-c"))
     {
         int key = 5;
         name_fout = strcat(name_fin, "-ciphered.txt");
         std::ofstream fout(name_fout);
-        while (fin >> std::noskipws >> c)
+        for (char c; fin.get(c);)
         {
             if (c >= 'a' && c <= 'z')
                 c = char(int(c + key - 97) % 26 + 97);
@@ -44,15 +42,19 @@ int main(int argc, char const *argv[])
     {
         name_fout = strcat(name_fin, "-unciphered.txt");
         std::ofstream fout(name_fout);
-        std::array<unsigned long long, 26> freq;
-        while (fin >> std::noskipws >> c)
+
+        size_t freq[256];
+        std::fill_n(freq, 256, 0);
+
+        for (char c; fin.get(c);)
+            ++freq[uint8_t(c)];
+
+        for (size_t i = 97; i < 123; i++)
         {
-            if (c >= 'a' && c <= 'z')
-                ++freq[c - 97];
-        }
-        for (int i = 0; i < freq.size(); i++)
-        {
-            std::cout << "Frequence " << char(i + 97) << " : " << freq[i] << std::endl;
+            if (freq[i] && isgraph(i)) // non-zero counts of printable characters
+            {
+                std::cout << char(i) << " = " << freq[i] << '\n';
+            }
         }
         //int key = 26 - key;
         fout.close();
