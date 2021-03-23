@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <iostream>
+#include <unordered_map>
 
 int main(int argc, char const *argv[])
 {
@@ -22,30 +24,41 @@ int main(int argc, char const *argv[])
         exit(1);
     }
 
-    int key = 5;
     char *name_fin = strtok((char *)argv[2], ".");
     char *name_fout;
-    if (!strcmp(argv[1], "-u"))
+    char c;
+    if (!strcmp(argv[1], "-c"))
     {
-        key = 26 - key;
-        name_fout = strcat(name_fin, "-unciphered.txt");
+        int key = 5;
+        name_fout = strcat(name_fin, "-ciphered.txt");
+        std::ofstream fout(name_fout);
+        while (fin >> std::noskipws >> c)
+        {
+            if (c >= 'a' && c <= 'z')
+                c = char(int(c + key - 97) % 26 + 97);
+            fout << c;
+        }
+        fout.close();
     }
     else
     {
-        name_fout = strcat(name_fin, "-ciphered.txt");
+        name_fout = strcat(name_fin, "-unciphered.txt");
+        std::ofstream fout(name_fout);
+        std::array<unsigned long long, 26> freq;
+        while (fin >> std::noskipws >> c)
+        {
+            if (c >= 'a' && c <= 'z')
+                ++freq[c - 97];
+        }
+        for (int i = 0; i < freq.size(); i++)
+        {
+            std::cout << "Frequence " << char(i + 97) << " : " << freq[i] << std::endl;
+        }
+        //int key = 26 - key;
+        fout.close();
     }
-    std::cout << key << " is the key\n";
-
-    std::ofstream fout(name_fout);
-    std::string content;
-    fin >> content;
-    for (auto &c : content)
-        if (c >= 'a' && c <= 'z')
-            c = char(int(c + key - 97) % 26 + 97);
-    fout << content;
 
     fin.close();
-    fout.close();
     std::cout << name_fout << " created\n";
 
     return 0;
