@@ -1,15 +1,13 @@
 CXX = g++
-CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -g -fsanitize=address
-LDFLAGS =  -fsanitize=address
+CXXFLAGS = -std=c++17 -Wall -Werror -Wextra -pedantic -g -fsanitize=address -O3
 
 SRC = cesar.cpp 
-OBJ = $(SRC:.cc=.o)
 EXEC = cesar
 
 all: $(EXEC)
 
-$(EXEC): $(OBJ)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJ) $(LBLIBS)
+$(EXEC): $(SRC)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 clean:
 	rm -rf $(EXEC) *unciphered* *ciphered*
