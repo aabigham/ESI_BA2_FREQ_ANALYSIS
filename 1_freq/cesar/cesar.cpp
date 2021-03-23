@@ -16,14 +16,15 @@ int main(int argc, char const *argv[])
         std::cout << "Wrong options, must be \"-c\" to cipher or \"-u\" to uncipher your file.\n";
         exit(1);
     }
+
     std::ifstream fin(argv[2], std::ios_base::binary);
     if (fin.fail())
     {
         std::cout << "Input file could not be opened, are you sure it is a text file ?\n";
         exit(1);
     }
-
     char *name_fin = strtok((char *)argv[2], ".");
+
     char *name_fout;
     if (!strcmp(argv[1], "-c"))
     {
@@ -41,21 +42,18 @@ int main(int argc, char const *argv[])
     else
     {
         name_fout = strcat(name_fin, "-unciphered.txt");
-        std::ofstream fout(name_fout);
+        std::ofstream fout(name_fout, std::ios_base::binary);
 
-        size_t freq[256];
-        std::fill_n(freq, 256, 0);
+        size_t freq[26];
+        std::fill_n(freq, 26, 0);
 
         for (char c; fin.get(c);)
-            ++freq[uint8_t(c)];
+            if (c >= 'a' && c <= 'z')
+                ++freq[int(c) - int('a')];
 
-        for (size_t i = 97; i < 123; i++)
-        {
-            if (freq[i] && isgraph(i)) // non-zero counts of printable characters
-            {
-                std::cout << char(i) << " = " << freq[i] << '\n';
-            }
-        }
+        for (size_t i = 0; i < 26; i++)
+            std::cout << char(i + 97) << " = " << freq[i] << '\n';
+
         //int key = 26 - key;
         fout.close();
     }
