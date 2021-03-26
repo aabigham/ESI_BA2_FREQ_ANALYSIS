@@ -37,7 +37,7 @@ Running that executable should be done like this :
 
 The options are :
 - `-c` to **cipher** a file. 
-- `-u` to **uncipher** a file. 
+- `-u` to **uncipher** a file (the shift is optional when running this option).
 
 Some examples of running these programs : 
 - `./cesar -c book.txt 4` will create a **ciphered** version of `book.txt`, using the cesar method with a **shift of 4**.
