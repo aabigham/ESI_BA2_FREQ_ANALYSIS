@@ -23,17 +23,23 @@ Our file structure for this lab looks like this :
 
 ```
 ### Instructions for this lab : 
-The language we used is C++17 and in each file you will find a Makefile used for compiling the program. 
+First of all, you need to preprocess your text file via the java Preprocess file.
+To do so : 
+- go inside the `preprocess/` folder
+- run `javac Preprocess.java` to compile the java program
+- then run `java Preprocess inputFile.txt outputFile.txt ` to run the file
 
-To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder, then run the `make` command in your terminal. An executable will be created.
+The language we used is C++17 and in each file you will find a Makefile to compile the program. 
+To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder, then run the `make` command in your terminal. An executable (named accordingly) will be created.
 
 Running that executable should be done like this : 
-- `./nameOfExecutable [options] [file.txt]`
+- `./nameOfExecutable [options] [file.txt] [shift]`
 
-Where the options are :
+The options are :
 - `-c` to **cipher** a file. 
 - `-u` to **uncipher** a file. 
 
 Some examples of running these programs : 
-- `./cesar -c book.txt` will create a ciphered version the `book.txt` file, using the cesar method.
-- `./cesar -u book-ciphered.txt` will ...TODO.
+- `./cesar -c book.txt 4` will create a **ciphered** version of `book.txt`, using the cesar method with a **shift of 4**.
+- `./cesar -u book-ciphered.txt` will create a **unciphered** version of `book-ciphered.txt`, **running a cryptanalysis** to find the key by itself (since no key was in argument). 
+- `./cesar -u book-ciphered.txt 4` will create a **unciphered** version of `book-ciphered.txt`, using the cesar method with a shift of 4.
