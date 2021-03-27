@@ -4,7 +4,7 @@
 - Amine-Ayoub Bigham 54985
 - Zakaria Bendaimi 54247
 
-## 1st lab : Frenquential analysis
+## 1st lab : Frequential analysis
 Our file structure for this lab looks like this : 
 ```
 1_freq
