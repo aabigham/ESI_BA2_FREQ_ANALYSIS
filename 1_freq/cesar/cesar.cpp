@@ -112,7 +112,7 @@ int main(int argc, char const *argv[])
 
 void cipher(std::ifstream &fin, std::ofstream &fout, int shift)
 {
-    // Foreach character, applying the shift
+    // Foreach character (that is in the alphabet), applying the shift
     for (char c; fin.get(c);)
     {
         if (c >= 'a' && c <= 'z')
@@ -126,12 +126,17 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
     // Vector holding the shift value and its chi-squared satistic for the file
     std::vector<std::pair<int, double>> chi_squares;
 
-    // Applying every shift possible on the ciphered text file
-    for (int i = 0; i < 26; ++i)
-    {
-        int shift = 26 - i;
-        size_t text_len = 0L;
+    // Text lenght
+    size_t text_len = 0L;
+    for (char c; fin.get(c);)
+        if (c >= 'a' && c <= 'z')
+            ++text_len;
+    fin.clear(); // Resetting file head
+    fin.seekg(0);
 
+    // Applying every shift possible on the ciphered text file
+    for (int currShift = 1; currShift <= 26; ++currShift)
+    {
         // Char frequency for the text with current shift
         std::array<size_t, 26> freq;
         std::fill_n(freq.begin(), 26, 0);
@@ -141,32 +146,31 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
         {
             if (c >= 'a' && c <= 'z')
             {
-                c = char(int(c + shift - 97) % 26 + 97);
-                ++text_len;
-                ++freq[int(c) - int('a')];
+                c = char(int(c + currShift - 97) % 26 + 97); // applying shift on current char
+                ++freq[int(c) - int('a')];                   // incrementing its frequency
             }
         }
         fin.clear(); // Resetting file head
         fin.seekg(0);
 
-        // Computing chi square for the current shifted frequency, for each character
+        // Computing chi square for the current shifted frequency of each character
         double chi = .0;
         for (size_t j = 0; j < 26; j++)
-            chi += (std::pow((freq[j] - (text_len * english[j])), 2) / (text_len * english[j]));
+            chi += (std::pow((freq[j] - (text_len * ::english[j])), 2) / (text_len * ::english[j]));
 
-        chi_squares.push_back(std::make_pair(shift, chi / 10000));
+        chi_squares.push_back(std::make_pair(currShift, chi / 10000));
     }
-    for (const auto &[shift, chi] : chi_squares)
-        std::cout << "Shift = " << shift << ", Chi = " << chi << std::endl;
 
-    auto it = std::min_element(chi_squares.cbegin(),
-                               chi_squares.cend(),
-                               [](const std::pair<int, double> p1, const std::pair<int, double> p2) {
-                                   return p1.second < p2.second;
-                               });
-
-    int shift = chi_squares.at(std::distance(chi_squares.cbegin(), it)).first;
-    shift = 26 - shift;
-    std::cout << "Guessed key = " << shift << " (lowest chi)." << std::endl;
-    cipher(fin, fout, 26 - shift);
+    // finding the minimum chi
+    auto min = chi_squares.at(0);
+    for (const auto &currPair : chi_squares)
+    {
+        if (currPair.second < min.second)
+            min = currPair;
+        std::cout << "Shift = " << currPair.first
+                  << ", Chi = " << currPair.second << std::endl;
+    }
+    int gShift = 26 - min.first; // Guessed shift
+    std::cout << "Guessed shift = " << gShift << std::endl;
+    cipher(fin, fout, 26 - gShift);
 }
