@@ -84,7 +84,7 @@ int main(int argc, char const *argv[])
         }
         else // Unciphering with shift
         {
-            std::cout << "tried to uncipher with a shift" << std::endl;
+            std::cout << "Tried to uncipher with a shift" << std::endl;
             try
             {
                 int shift = std::stoi(argv[3]);
