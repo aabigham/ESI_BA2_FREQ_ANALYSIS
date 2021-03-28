@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Werror -Wextra -pedantic -g -fsanitize=address
+CXXFLAGS = -std=c++17 -Wall -Werror -Wextra -pedantic -g -fsanitize=address -O2
 
 SRC = vigenere.cpp 
 EXEC = vigenere
