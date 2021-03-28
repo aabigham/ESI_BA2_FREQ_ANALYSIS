@@ -15,15 +15,13 @@ constexpr static std::array<double, 26> english{
     0.06327, 0.09056, 0.02758, 0.00978, 0.02360, 0.00150,
     0.01974, 0.00074};
 
-// Ciphers "fin" into "fout" according to the shift (can also uncipher)
-void cipher(std::ifstream &fin, std::ofstream &fout, int shift);
-
-// Unciphers "fin" into "fout" without the shift
+int askShift();
+void cipher(std::ifstream &fin, std::ofstream &fout, int shift); // Can cipher or unciper with a shift
 void uncipher(std::ifstream &fin, std::ofstream &fout);
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 3 && argc != 4) // Checks the number or arguments
+    if (argc != 3) // Checks the number or arguments
     {
         std::cerr << "Wrong number of arguments.\n";
         return -1;
@@ -31,11 +29,6 @@ int main(int argc, char const *argv[])
     else if (strcmp(argv[1], "-c") && strcmp(argv[1], "-u")) // Checks the options
     {
         std::cerr << "Wrong options, must be \"-c\" to cipher or \"-u\" to uncipher your file.\n";
-        return -1;
-    }
-    else if (!strcmp(argv[1], "-c") && argc == 3) // If ciphering is chosen but no shift in argument
-    {
-        std::cerr << "You need a shift value to cipher your file.\n";
         return -1;
     }
 
@@ -51,63 +44,66 @@ int main(int argc, char const *argv[])
 
     if (!strcmp(argv[1], "-c")) // Ciphering with a shift
     {
-        std::cout << "Tried to cipher with a shift.\n";
-        try
+        std::cout << "Trying to cipher with a shift.\n";
+        int shift = askShift();
+        std::cout << "Ciphering with shift " << shift << "...\n";
+        char *name_fout = strcat(name_fin, "-ciphered.txt");
+        std::ofstream fout(name_fout); // output file
+        cipher(fin, fout, shift);
+        fout.close();
+        std::cout << name_fout << " created.\n";
+    }
+    else if (!strcmp(argv[1], "-u")) // Unciphering
+    {
+        char b;
+        do
         {
-            int shift = std::stoi(argv[3]);
-            if (!(shift >= 1 && shift <= 26))
-            {
-                std::cerr << "The shift must be between 1 and 26.\n";
-                return -1;
-            }
-            char *name_fout = strcat(name_fin, "-ciphered.txt");
+            std::cout << "Do you want to use a shift to uncipher ? [y/n]" << std::endl;
+            std::cin >> b;
+        } while (!std::cin.fail() && b != 'y' && b != 'n');
+
+        if (b == 'y')
+        {
+            int shift = askShift();
+            std::cout << "Unciphering with shift " << shift << "...\n";
+            shift = 26 - shift;
+            char *name_fout = strcat(name_fin, "-unciphered.txt");
             std::ofstream fout(name_fout); // output file
             cipher(fin, fout, shift);
             fout.close();
             std::cout << name_fout << " created.\n";
         }
-        catch (const std::exception &e)
+        else
         {
-            std::cerr << "Wrong shift value, are you sure it is a number ?\n";
-        }
-    }
-    else if (!strcmp(argv[1], "-u")) // Unciphering
-    {
-        if (argc == 3) // Unciphering without shift
-        {
-            std::cout << "tried to uncipher without a shift" << std::endl;
+            std::cout << "Unciphering without shift ...\n";
             char *name_fout = strcat(name_fin, "-unciphered.txt");
             std::ofstream fout(name_fout, std::ios_base::binary); // output file
             uncipher(fin, fout);
             fout.close();
             std::cout << name_fout << " created.\n";
         }
-        else // Unciphering with shift
-        {
-            std::cout << "Tried to uncipher with a shift" << std::endl;
-            try
-            {
-                int shift = std::stoi(argv[3]);
-                if (!(shift >= 1 && shift <= 26))
-                {
-                    std::cerr << "The shift must be between 1 and 26.\n";
-                    return -1;
-                }
-                shift = 26 - shift;
-                char *name_fout = strcat(name_fin, "-unciphered.txt");
-                std::ofstream fout(name_fout); // output file
-                cipher(fin, fout, shift);
-                fout.close();
-                std::cout << name_fout << " created.\n";
-            }
-            catch (const std::exception &e)
-            {
-                std::cerr << "Wrong shift value, are you sure it is a number ?\n";
-            }
-        }
     }
     fin.close();
     return 0;
+}
+
+int askShift()
+{
+    int shift;
+    bool valid;
+    do
+    {
+        std::cout << "Enter your shift, must be between 1 and 26 : ";
+        std::cin >> shift;
+        valid = true;
+        if (!(shift >= 1 && shift <= 26))
+        {
+            valid = false;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    } while (!valid);
+    return shift;
 }
 
 void cipher(std::ifstream &fin, std::ofstream &fout, int shift)

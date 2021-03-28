@@ -25,7 +25,7 @@ void uncipher(std::ifstream &fin, std::ofstream &fout);
 
 int main(int argc, char const *argv[])
 {
-    if (argc != 3 && argc != 4) // Checks the number or arguments
+    if (argc != 3) // Checks the number or arguments
     {
         std::cerr << "Wrong number of arguments.\n";
         return -1;
@@ -92,13 +92,21 @@ int main(int argc, char const *argv[])
 std::string askKey()
 {
     std::string key;
+    bool valid;
     do
     {
-        std::cout << "Enter your key : ";
+        std::cout << "Enter your key (at least one char) : ";
         std::cin >> key;
-    } while (!std::cin.fail() && key.size() == 0);
+        valid = true;
+        for (size_t i{}; i < key.size() && valid; ++i)
+            if (!(std::isalpha(static_cast<unsigned char>(key[i])) ||
+                  std::isspace(static_cast<unsigned char>(key[i]))))
+                valid = false;
+    } while (!valid);
+
     for (size_t i = 0; i < key.size(); i++)
         key[i] = std::tolower(key[i]);
+
     return key;
 }
 
@@ -143,7 +151,7 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
     fin.seekg(0);
 
     int maxKey = 30;
-    // Coincidence index for each key
+    // Coincidence index for each key lenght
     std::vector<std::pair<int, double>> vic;
 
     for (int currKey = 2; currKey <= maxKey; currKey++)
@@ -169,10 +177,17 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
         vic.push_back({currKey, ics / currKey});
     }
 
-    for (const auto &[key, ic] : vic)
-        std::cout << "Key " << key << " : " << ic << std::endl;
+    // guessed keys
+    for (const auto &[k_len, ic] : vic)
+        std::cout << "Key_len " << k_len << " : " << ic << std::endl;
 
-    //int key_len;
+    /*std::sort(vic.begin(), vic.end(),
+              [](std::pair<int, double> lhs, std::pair<int, double> rhs) {
+                  return lhs.first < rhs.first && rhs.second > lhs.second;
+              });
+    std::cout << std::endl;
+    for (const auto &[k_len, ic] : vic)
+        std::cout << "Key_len " << k_len << " : " << ic << std::endl;*/
 
     fout << 'x';
 }
