@@ -6,6 +6,7 @@
 #include <vector>
 #include <cmath>
 #include <algorithm>
+#include <iomanip>
 
 // Coincidence index enlgish
 constexpr double ic_english{0.0667};
@@ -153,41 +154,120 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
     int maxKey = 30;
     // Coincidence index for each key lenght
     std::vector<std::pair<int, double>> vic;
-
-    for (int currKey = 2; currKey <= maxKey; currKey++)
+    for (int currLen = 2; currLen <= maxKey; currLen++)
     {
-        // Frenquecy vector
-        std::vector<std::array<size_t, 26>> vFreq(currKey);
+        // Frenquecy vector for current length
+        std::vector<std::array<size_t, 26>> vFreq(currLen);
         for (auto &arr : vFreq)
             std::fill(arr.begin(), arr.end(), 0);
 
-        int i = 0;
+        // On each subtext
+        int decal = 0;
         for (char c; fin.get(c);)
             if (c >= 'a' && c <= 'z')
-                ++vFreq.at(i++ % currKey)[(int)c - 97];
+                ++vFreq.at(decal++ % currLen)[(int)c - 97];
         fin.clear();
         fin.seekg(0);
 
+        // Coincidence indexes for current lenght
         double ics = .0;
         for (const auto &arr : vFreq)
         {
-            ics += getCoincidenceIndex(arr, text_len / currKey);
+            ics += getCoincidenceIndex(arr, text_len / currLen);
         }
         // Push l'indice de coincidence pour clé courante
-        vic.push_back({currKey, ics / currKey});
+        vic.push_back({currLen, ics / currLen});
     }
 
-    // guessed keys
-    for (const auto &[k_len, ic] : vic)
-        std::cout << "Key_len " << k_len << " : " << ic << std::endl;
+    // Setting precision for each ic
+    for (auto &[k_len, ic] : vic)
+    {
+        std::stringstream ss;
+        ss << std::setprecision(4) << ic;
+        double new_val = std::stod(ss.str());
+        ic = new_val;
+        ss.str(std::string());
+        std::cout << "Key_len " << k_len << " : " << std::setprecision(4) << ic << std::endl;
+    }
 
-    /*std::sort(vic.begin(), vic.end(),
-              [](std::pair<int, double> lhs, std::pair<int, double> rhs) {
-                  return lhs.first < rhs.first && rhs.second > lhs.second;
-              });
-    std::cout << std::endl;
-    for (const auto &[k_len, ic] : vic)
-        std::cout << "Key_len " << k_len << " : " << ic << std::endl;*/
+    // Guessing key length
+    auto it = std::max_element(vic.begin(), vic.end(), [](std::pair<int, double> p1, std::pair<int, double> p2) {
+        return p1.second < p2.second;
+    });
+    const int g_len = vic.at(std::distance(vic.begin(), it)).first;
+    std::cout << std::endl
+              << "Guessed key length : " << g_len << std::endl;
 
-    fout << 'x';
+    /*
+    --------KEY LENGTH FOUND AT THIS POINT--------    
+    */
+
+    // --------CESAR BRUTEFORCE ON EACH SUB TEXT--------
+    std::vector<std::vector<std::pair<int, double>>> vChi_squares;
+    // Applying every shift possible on the ciphered text file
+    for (int currShift = 1; currShift <= 26; ++currShift)
+    {
+        std::vector<std::array<size_t, 26>> vFreq(g_len);
+        for (auto &arr : vFreq)
+            std::fill(arr.begin(), arr.end(), 0);
+
+        int decal = 0;
+        for (char c; fin.get(c);)
+        {
+            if (c >= 'a' && c <= 'z')
+            {
+                c = char(int(c + currShift - 97) % 26 + 97);
+                ++vFreq[decal++ % g_len][(int)c - 97];
+            }
+        }
+        fin.clear();
+        fin.seekg(0);
+
+        std::vector<std::pair<int, double>> v;
+        for (int i = 0; i < g_len; i++)
+        {
+            double chi = .0;
+            for (size_t j = 0; j < 26; j++)
+            {
+                chi += (std::pow((vFreq[i][j] - ((text_len / 4.) * ::english[j])), 2) /
+                        ((text_len / 4.) * ::english[j]));
+            }
+            v.push_back({currShift, chi / 10000.});
+        }
+        vChi_squares.push_back(v);
+    }
+
+    for (const auto &currV : vChi_squares)
+    {
+        for (const auto &currPair : currV)
+            std::cout << "Shift = " << currPair.first << ", Chi = " << currPair.second << std::endl;
+        std::cout << std::endl;
+    }
+
+    // For each letter, we need to find its corresponding shift
+    int *shifts = new int[g_len];
+    for (int i = 0; i < g_len; i++)
+    {
+        int j = 0;
+        auto min_pair = vChi_squares[j][i];
+        for (; j < 26; j++)
+        {
+            if (vChi_squares[j][i].second < min_pair.second)
+                min_pair = vChi_squares[j][i];
+        }
+        shifts[i] = 26 - min_pair.first;
+    }
+    for (int i = 1; i <= g_len; i++)
+        std::cout << "Shift for letter " << i << " : " << (shifts[i - 1]) << std::endl;
+
+    std::cout << "Unciphering...\n\n";
+
+    int decal = 0;
+    for (char c; fin.get(c);)
+    {
+        if (c >= 'a' && c <= 'z')
+            c = char(int(c + (26 - shifts[decal++ % g_len]) - 97) % 26 + 97);
+        fout << c;
+    }
+    delete[] shifts;
 }

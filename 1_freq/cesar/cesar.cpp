@@ -106,6 +106,7 @@ int askShift()
     return shift;
 }
 
+// This function can cipher and uncipher at the same time
 void cipher(std::ifstream &fin, std::ofstream &fout, int shift)
 {
     // Foreach character (that is in the alphabet), applying the shift
