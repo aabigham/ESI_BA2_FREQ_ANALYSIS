@@ -257,10 +257,16 @@ void uncipher(std::ifstream &fin, std::ofstream &fout)
         }
         shifts[i] = 26 - min_pair.first;
     }
-    for (int i = 1; i <= g_len; i++)
-        std::cout << "Shift for letter " << i << " : " << (shifts[i - 1]) << std::endl;
 
-    std::cout << "Unciphering...\n\n";
+    std::string guess;
+    for (int i = 1; i <= g_len; i++)
+    {
+        std::cout << "Shift for letter " << i << " : " << shifts[i - 1] << std::endl;
+        guess += char(shifts[i - 1] + 97);
+    }
+    std::cout << std::endl
+              << "YOUR KEY WAS : " << guess << std::endl
+              << "Unciphering...\n\n";
 
     int decal = 0;
     for (char c; fin.get(c);)
