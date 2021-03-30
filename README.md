@@ -35,7 +35,7 @@ Running that executable should be done like this :
 
 The options are :
 - `-c` to **cipher** a file. 
-- `-u` to **uncipher** a file (the shift is optional when running this option).
+- `-u` to **uncipher** a file (the key is optional when running this option).
 
 If you choose to **cipher** a file, you will be asked for a key.
 
