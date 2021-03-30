@@ -13,33 +13,35 @@ Our file structure for this lab looks like this :
  ┃ ┣ book.txt
  ┃ ┗ cesar.cpp
  ┣ preprocess
- ┃ ┣ Preprocess.java
- ┃ ┣ book-preprocessed.txt
- ┃ ┗ book.txt
+ ┃ ┗ Preprocess.java
  ┗ vigenere
-   ┣ Makefile
-   ┣ vigenere.cpp
-   ┗ book.txt
-
+ ┃ ┣ Makefile
+ ┃ ┣ book.txt
+ ┃ ┗ vigenere.cpp
 ```
 ### Instructions for this lab : 
-First of all, you need to preprocess your text file via the java Preprocess file.
+First of all, you need to preprocess your **english** text file via the java Preprocess file.
+
 To do so : 
-- go inside the `preprocess/` folder
-- run `javac Preprocess.java` to compile the java program
-- then run `java Preprocess inputFile.txt outputFile.txt ` to run the file
+- Go inside the `preprocess/` folder
+- Run `javac Preprocess.java` to compile the java program
+- Then run `java Preprocess inputFile.txt outputFile.txt ` to run the file
 
 The language we used is C++17 and in each file you will find a Makefile to compile the program. 
-To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder, then run the `make` command in your terminal. An executable (named accordingly) will be created.
+To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder, then run the `make` command in your terminal. An executable (accordingly named) will be created.
 
 Running that executable should be done like this : 
-- `./nameOfExecutable [options] [file.txt] [shift]`
+- `./nameOfExecutable [options] [file.txt]`
 
 The options are :
 - `-c` to **cipher** a file. 
 - `-u` to **uncipher** a file (the shift is optional when running this option).
 
+If you choose to cipher a file, you will be asked for a key.
+If you choose to uncipher a file, you will be prompted with the choice of using a key or not, **in that case choose not to use a key to run the frequential analysis.**
+
 Some examples of running these programs : 
-- `./cesar -c book.txt 4` will create a **ciphered** version of `book.txt`, using the cesar method with a **shift of 4**.
-- `./cesar -u book-ciphered.txt` will create a **unciphered** version of `book-ciphered.txt`, **running a cryptanalysis** to find the key by itself (since no key was in argument). 
-- `./cesar -u book-ciphered.txt 4` will create a **unciphered** version of `book-ciphered.txt`, using the cesar method with a shift of 4.
+- `./cesar -c book.txt` will **cipher** `book.txt`, you will be asked to enter a key.
+- `./cesar -u book.txt` will **uncipher** `book.txt`, you will be asked if you want to enter a key
+- `./vigenere -c book.txt` will **cipher** `book.txt`, you will be asked to enter a key.
+- `./vigenere -u book.txt` will **uncipher** `book.txt`, you will be asked if you want to enter a key
