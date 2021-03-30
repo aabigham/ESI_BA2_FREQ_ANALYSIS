@@ -37,8 +37,9 @@ The options are :
 - `-c` to **cipher** a file. 
 - `-u` to **uncipher** a file (the shift is optional when running this option).
 
-If you choose to cipher a file, you will be asked for a key.
-If you choose to uncipher a file, you will be prompted with the choice of using a key or not, **in that case choose not to use a key to run the frequential analysis.**
+If you choose to **cipher** a file, you will be asked for a key.
+
+If you choose to **uncipher** a file, you will be prompted with the choice of using a key or not, **in that case, choose not to use a key to run the frequential analysis.**
 
 Some examples of running these programs : 
 - `./cesar -c book.txt` will **cipher** `book.txt`, you will be asked to enter a key.
