@@ -25,7 +25,7 @@ First of all, you need to preprocess your **english** text file via the java Pre
 To do so : 
 - Go inside the `preprocess/` folder
 - Run `javac Preprocess.java` to compile the java program
-- Then run `java Preprocess inputFile.txt outputFile.txt ` to run the file
+- Then run `java Preprocess inputFile.txt outputFile.txt ` to preprocess the file
 
 The language we used is C++17 and in each file you will find a Makefile to compile the program. 
 To compile and run one of these program, open a terminal in the `cesar/` or `vigenere/` folder, then run the `make` command in your terminal. An executable (accordingly named) will be created.
