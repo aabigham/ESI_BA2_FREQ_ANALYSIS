@@ -1,77 +1,25 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/c,c++,java,vscode
-# Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,java,vscode
+# Created by https://www.toptal.com/developers/gitignore/api/java,c++
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,c++
 
-*unciphered* 
-*ciphered*
-
-### C ###
+### C++ ###
 # Prerequisites
 *.d
 
-# Object files
+# Compiled Object files
+*.slo
+*.lo
 *.o
-*.ko
 *.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
 
 # Precompiled Headers
 *.gch
 *.pch
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-### C++ ###
-# Prerequisites
-
-# Compiled Object files
-*.slo
-
-# Precompiled Headers
-
-# Linker files
-
-# Debugger Files
-
 # Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
 
 # Fortran module files
 *.mod
@@ -79,8 +27,14 @@ dkms.conf
 
 # Compiled Static libraries
 *.lai
+*.la
+*.a
+*.lib
 
 # Executables
+*.exe
+*.out
+*.app
 
 ### Java ###
 # Compiled class file
@@ -107,12 +61,8 @@ dkms.conf
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-### vscode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
+# bin
+cesar 
+vigenere
 
-# End of https://www.toptal.com/developers/gitignore/api/c,c++,java,vscode
+# End of https://www.toptal.com/developers/gitignore/api/java,c++
