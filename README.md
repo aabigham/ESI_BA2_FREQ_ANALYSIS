@@ -1,6 +1,6 @@
-# Frequential Analysis (SECG4/I5)
+# Frequential Analysis
 
-- [Frequential Analysis (SECG4/I5)](#frequential-analysis-secg4i5)
+- [Frequential Analysis](#frequential-analysis)
   - [Author](#author)
   - [Instructions](#instructions)
     - [Packages](#packages)
@@ -12,7 +12,7 @@
 
 ## Author
 
-- Amine-Ayoub Bigham (54985@etu.he2b.be)
+- Amine-Ayoub Bigham
 
 ## Instructions
 
